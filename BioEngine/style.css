@@ -1,0 +1,117 @@
+#gameWorld {
+    border: 1px solid black;
+    background-color: white;
+    float: left;
+    display:inline-block;
+}
+#environment {
+    width: 480px;
+    padding: 10px;
+    border: 2px solid black;
+    margin: auto;
+    font-family: Arial;
+    color: black;
+    background-color: steelblue;
+    display:inline-block;
+    text-align:left;
+}
+
+/* .button {
+    border: 2px solid black;
+    margin: auto;
+    padding-top: 0px;
+    font-family:Arial;
+    color: black;
+    background-color: lightslategray;
+    display:inline-block;
+    text-align:center;
+    cursor: auto;
+}
+
+.button:hover {
+    background-color: rgb(109, 124, 139);
+} */
+
+
+/*
+
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+*/
+
+
+p {
+    margin: 4px;
+    font-size:20px;
+}
+
+
+
+/*
+
+
+#gameWorld {
+    border: 1px solid black;
+    background-color: white;
+    float: left;
+    display:inline-block;
+}
+
+
+
+
+
+#environment {
+    width: 240px;
+    border: 2px solid brown;
+    margin: auto;
+    font-family: Arial;
+    color: brown;
+    background-color: sandybrown;
+    display:inline-block;
+    text-align:left;
+}
+
+#Logging {
+    width: 240px;
+    border: 2px solid purple;
+    margin: auto;
+    font-family: Arial;
+    color: purple;
+    background-color: mediumpurple;
+    display:inline-block;
+    text-align:left;
+}
+
+div input {
+    width: 50px;
+}
+div div input {
+    width: 150px;
+}
+
+#agent {
+    width: 240px;
+    border: 2px solid darkgreen;
+    margin: auto;
+    font-family: Arial;
+    color: green;
+    background-color: lightgreen;
+    display:inline-block;
+    text-align:left;
+}
+
+*/

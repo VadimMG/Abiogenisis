@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Abiogenesis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>Abiogenesis 1.4</header>
+    <canvas id="gameWorld" width="600" height="600" style="border: 1px solid white; background: blue"></canvas>
+    
+
+    <div id="environment">
+            <p>Environment Parameters</p>
+            <div>Entity location: <div id="p1"></div></div>
+            <div>
+                Zoom
+                <input type ="range" min=".05", max="20" step="any" id="zoomRange" value="1" list="tickmarks" oninput="zoomOutput.value = zoomRange.value">
+                <output id="zoomOutput">1</output>
+            </div>
+            <datalist id="tickmarks">
+                <option value="1">
+                <option value="5">
+                <option value="10">
+                <option value="15">
+                <option value="20" label="x20">
+              </datalist>
+            <button class="button" id="btn_nextEntity">Next Entity</button>
+            <button id="btn_addEntity">Add</button>
+            <div>Follow<input type="checkbox" id="ckbx_follow"></div>
+            <div>
+                Hydophoblic Force
+                <input type ="range" min="0", max="200" step="any" id="hydroRange" value="40" oninput="hydroOutput.value = hydroRange.value">
+                <output id="hydroOutput">40</output>
+            </div>
+
+            <div>
+                Electrostatic force
+                <input type ="range" min="0", max="200" step="any" id="electroRange" value="10" oninput= "electroOutput.value = electroRange.value">
+                <output id="electroOutput">10</output>
+            </div>
+
+            <div>
+                <button class="button" id="btn_restart">Restart</button>
+                <button class="button" id="btn_pause">Pause</button>
+                <button class="button" id="btn_resume">Resume</button>
+            </div>
+           
+            <div>Temperatue
+                <input type ="range" min="1", max="32" step="1" id="tempRange" value="0" oninput="tempOutput.value = tempRange.value">
+                <output id="tempOutput">0</output>
+            </div>
+            <div>pH
+                    <input type ="range" min="1", max="32" step="1" id="phRange" value="0" oninput="phOutput.value = phRange.value">
+                    <output id="phOutput">0</output>
+                </div>
+            <div>Remove Click<input type="checkbox" id="ckbx_remove"></div>
+            <div>Fluctuate Hydophoblic Force<input type="checkbox" id="ckbx_fluc_hdydo"></div>
+            <div>
+                Fluctuate Frequency
+                <input type ="range" min="0", max="200" step="1" id="hydroFlucFreqRange" value="1" oninput="hydroFlucFreqOutput.value = hydroFlucFreqRange.value">
+                <output id="hydroFlucFreqOutput">1</output>
+            </div>
+            <div>
+                Min Hydrophobic Force
+                <input type ="range" min="0", max="200" step="1" id="minHydroRange" value="1" oninput="minHydroOutput.value = minHydroRange.value">
+                <output id="minHydroOutput">1</output>
+            </div>
+            <div>
+                Max Hydrophobic Force
+                <input type ="range" min="0", max="200" step="1" id="maxHydroRange" value="1" oninput="maxHydroOutput.value = maxHydroRange.value">
+                <output id="maxHydroOutput">1</output>
+            </div>
+            <div>Fluctuate Electorstatic Force<input type="checkbox" id="ckbx_fluc_electro"></div>
+            <div>
+                Fluctuate Frequency
+                <input type ="range" min="0", max="200" step="1" id="electroFlucFreqRange" value="1" oninput="electroFlucFreqOutput.value = electroFlucFreqRange.value">
+                <output id="electroFlucFreqOutput">1</output>
+            </div>
+            <div>
+                Min Electro Force
+                <input type ="range" min="0", max="200" step="1" id="minElectroRange" value="1" oninput="minElectroOutput.value = minElectroRange.value">
+                <output id="minElectroOutput">1</output>
+            </div>
+            <div>
+                Max Electro Force
+                <input type ="range" min="0", max="200" step="1" id="maxElectroRange" value="1" oninput="maxElectroOutput.value = maxElectroRange.value">
+                <output id="maxElectroOutput">1</output>
+            </div>
+            <div>Enable Water Fiction<input type="checkbox" id="ckbx_waterFric"></div>
+            <div>
+                Water Friction
+                <input type ="range" min="0", max="1000" step="1" id="waterFricRange" value="1" oninput="waterFricOutput.value = waterFricRange.value / 1000">
+                <output id="waterFricOutput">.001</output>
+            </div>
+            <div>
+                Max Speed
+                <input type ="range" min="0", max="200" step="1" id="speedRange" value="1" oninput="speedOutput.value = speedRange.value">
+                <output id="speedOutput">1</output>
+            </div>
+            <div>Fatty length varience<input type="checkbox" id="ckbx_fluc_electro"></div>
+            <div>Fatty Dimensions</div>
+            <div>
+                Tail Length
+                <input type ="range" min="1", max="32" step="1" id="tailRange" value="8" oninput="tailOutput.value = tailRange.value">
+                <output id="tailOutput">8</output>
+            </div>
+            <div>
+                Tail Radius
+                <input type ="range" min="1", max="20" step="1" id="tailRadRange" value="2" oninput="tailRadOutput.value = tailRadRange.value">
+                <output id="tailRadOutput">2</output>
+            </div>
+            <div>
+                Head Size
+                <input type ="range" min="1", max="20" step="1" id="headRange" value="2" oninput="headOutput.value = headRange.value">
+                <output id="headOutput">2</output>
+            </div>
+            <div>
+                Collison padding
+                <input type ="range" min="0", max="20" step=".5" id="colPadRange" value="0" oninput="colPadOutput.value = colPadRange.value">
+                <output id="colPadOutput">0</output>
+            </div>
+            <div>
+                Fatty spawn rate
+                <input type ="range" min="1", max="32" step="1" id="spawnRange" value="0" oninput="spawnOutput.value = spawnRange.value">
+                <output id="spawnOutput">0</output>
+            </div>
+        </div>
+
+
+   
+
+    <script type="text/javascript" src="./Calc.js"></script>
+    <script type="text/javascript" src="./Camera.js"></script>
+    <script type="text/javascript" src="./Entity.js"></script>
+    <script type="text/javascript" src="./fatty.js"></script>
+    <script type="text/javascript" src="./Amino.js"></script>
+    <script type="text/javascript" src="./Nucleotide.js"></script>
+    <script type="text/javascript" src="./Molecule.js"></script>
+    <script type="text/javascript" src="./Lipid.js"></script>
+    <script type="text/javascript" src="./engine.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+</body>
+</html>
