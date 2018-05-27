@@ -7,7 +7,7 @@ var gameEngine = new GameEngine();
 // }
 
 
-for (var i = 0; i < 200; i++) {//0 has crash from set focus
+for (var i = 0; i < 100; i++) {//0 has crash from set focus
     gameEngine.addEntity(new Lipid(Calc.randomInt(canv.width), Calc.randomInt(canv.height), Calc.randomInt(360), 1, i));
 }
 

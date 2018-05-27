@@ -48,7 +48,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                 var xdist2 = eHX - thisHX;
                 var ydist2 = eHY - thisHY;
                 var dist2 = Calc.distance(thisHX, thisHY, eHX, eHY);
-                if (ydist2 != 0 && xdist2 != 0 && dist2 >= this.radius && !this.struc[0].isCollide) {
+                if (ydist2 != 0 && xdist2 != 0 && dist2 >= this.radius && !this.struc[0].isCollide && !e.struc[0].isCollide) {
                     var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
                     var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist2 * dist2);
                     e.forceHead(ang, mag);
@@ -68,7 +68,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                         var ydist = otherY - theY;
                         var dist = Calc.distance(otherX, otherY, theX, theY);
 
-                        if (ydist != 0 && xdist != 0 && dist >= this.radius && !this.struc[j].isCollide && !e.struc[k].isCollide) {//!other.iscoolide
+                        if (ydist != 0 && xdist != 0 && dist >= this.radius && !this.struc[j].isCollide && !e.struc[k].isCollide) {
                             var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
                             var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
                             e.actForce(ang, mag);//better act force?
@@ -115,6 +115,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
     collide(other) {//save lengths to reduce calcs, check for head
         for (var i = 0; i < this.struc.length; i++) {
+            var flag = false;
             var thisX = this.getX(i);
             var thisY = this.getY(i);
             var thisRad = this.struc[i].radius;
@@ -127,10 +128,15 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                     this.seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad);
                     this.struc[i].isCollide = true;
                     other.struc[j].isCollide = true;
-                } else {
-                    this.struc[i].isCollide = false;//do not reset on interval, flag
-                    other.struc[j].isCollide = false;
+                    flag = true;
+                } else if (!flag){
+                    //this.struc[i].isCollide = false;//do not reset on interval, flag
+                    //other.struc[j].isCollide = false;
                 }
+            }
+
+            if (!flag) {
+                this.struc[i].isCollide = false;
             }
         }
 
@@ -145,6 +151,14 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         this.y += difY * delta / 2;
         other.x -= difX * delta / 2;
         other.y -= difY * delta / 2;
+
+        //swap vels
+        var tempSpeed = this.speed;
+        var tempAng = this.d_angle.value;
+        this.speed = other.speed;
+        this.d_angle.setValue(other.d_angle.getValue());
+        other.speed = tempSpeed;
+        other.d_angle.setValue(tempAng);
     }
 
 
