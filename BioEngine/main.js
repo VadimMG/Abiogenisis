@@ -1,5 +1,5 @@
 var canv = document.getElementById("gameWorld");
-var ctx = canv.getContext("2d");
+var ctx = canv.getContext("2d", { alpha: false });
 var gameEngine = new GameEngine();
 
 // for (var i = 0; i < 1; i++) {//0 has crash from set focus
@@ -7,7 +7,7 @@ var gameEngine = new GameEngine();
 // }
 
 
-for (var i = 0; i < 50; i++) {//0 has crash from set focus
+for (var i = 0; i < 100; i++) {//0 has crash from set focus
     gameEngine.addEntity(new Lipid(Calc.randomInt(canv.width), Calc.randomInt(canv.height), Calc.randomInt(360), 1, i));
 }
 

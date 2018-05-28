@@ -7,6 +7,8 @@ class Camera {//maybe need getx/get y
         this.focus = false;
         this.scale = .5;
         this.name = "camera";
+        this.ent_id = Calc.CAMERA_ID;
+
         if (follow != null) {
             console.log("follow", follow.x, follow.y);
             this.x = follow.x;

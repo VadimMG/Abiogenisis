@@ -18,7 +18,19 @@ const MAXDEGREE = 360;
 const DEGTORAD = Math.PI/180;
 const RADTODEG = 180/Math.PI;
 
+const LIPID_ID = 1;
+const CAMERA_ID = 2;
+
 class Calc {
+
+    static get LIPID_ID() {
+        return LIPID_ID;
+    }
+
+    static get CAMERA_ID() {
+        return CAMERA_ID;
+    }
+    
     static get MAXDEGREE() {
         return MAXDEGREE;
     }

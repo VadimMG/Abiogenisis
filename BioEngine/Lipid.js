@@ -3,11 +3,14 @@
 class Lipid extends Entity {//keep molecules consisten sized for easier calculations//save x y before calcuations.//integrate camera
     constructor(x, y, angle, speed, id) {
         super(x, y, angle, speed, id);
-        this.length = 1;
+        this.length = 2;
         this.radius = 2;
         this.headScale = 1;
         this.struc = this.fillLength(this.length);
         this.name = "Lipid";
+        this.ent_id = Calc.LIPID_ID;
+        // this.twotailed = true;
+        // this.struc2 = this.fillLength(this.length);
     }
 
     fillLength(length) {//only for tail
@@ -25,6 +28,12 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
             var m = this.struc[i];
             m.render(ctx, this.getX(i), this.getY(i));
         }
+
+        // for (var i = 0; i < this.struc.length; i++) {
+        //     var m = this.struc[i];
+        //     m.render(ctx, this.getX(i), this.getY(i));
+        // }
+
     }
 
     tick(entities) {//save x's and y's to reduce overhead/calcuations, pass on caclations//force apart head-tail
@@ -37,7 +46,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
         for (var i = 0; i < entities.length; i++) {
             var e = entities[i];
-            if (e != this && e.name == "Lipid") {
+            if (e != this && e.ent_id == Calc.LIPID_ID) {
                 this.collide(e);
                 var len2 = e.struc.length;
                 var eHX = e.getX(0);
@@ -52,21 +61,22 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                     var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
                     var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist2 * dist2);
                     e.forceHead(ang, mag);//head-head attraction
-                    e.actForce(ang, mag);
+                    //e.actForce(ang, mag);
                 }
 
                 for (var j = 1; j < len2; j++) {
-                    var otherX = e.getX(k);
-                    var otherY = e.getY(k);
+                    var otherX = e.getX(j);
+                    var otherY = e.getY(j);
 
                     var xdist = otherX - thisHX;
                     var ydist = otherY - thisHY;
                     var dist = Calc.distance(otherX, otherY, theX, theY);
 
-                    if (ydist != 0 && xdist != 0 && dist >= this.radius) {
+                    if (ydist != 0 && xdist != 0 && dist >= this.radius) {// && !e.struc[j].isCollide
                         var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
-                        var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist * dist);
-                        e.actForce(-ang, mag);//head-tail repulsion
+                        var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
+                        //e.forceHead(ang, -mag);//head-tail repulsion
+                        e.actForce(ang, -mag);
                     }
 
                 }
@@ -93,22 +103,14 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
                 }
 
-                // for (var j = 0; j < l; j++) {//only same length lipids
-                //     var xdist = e.getX(j) - this.getX(j);
-                //     var ydist = e.getY(j) - this.getY(j);
-                //     if (ydist != 0 && xdist != 0) {
-                //         var dist = Calc.distance(this.getX(j), this.getY(j), e.getX(j), e.getY(j));
-                //         var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
-                //         var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
-                //         e.actForce(ang, mag);
-                //     }
-
-                // }
             }
 
         }
 
     }
+
+
+    //lipid act force, force on individual molecule, torque?
 
     forceHead(angle, mag) {
         if (!isFinite(angle || !isFinite(mag))) {
@@ -143,7 +145,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                 if (dist < thisRad + otherRad + Calc.colPad + Calc.colPad) {
                     this.seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad);
                     this.struc[i].isCollide = true;
-                    other.struc[j].isCollide = true;
+                    //other.struc[j].isCollide = true;
                     flag = true;
                 } else if (!flag){
                     //this.struc[i].isCollide = false;//do not reset on interval, flag
@@ -205,7 +207,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         return Calc.rotatePoint(this.x + this.struc[0].radius + this.struc[1].radius * (2 * index - 1), this.y, this.x, this.y, this.o_angle.getValue())[0];
     }
 
-    getY(index) {//+ this.radius*(index%2)
+    getY(index) {//+ this.radius*(index%2)*((this.id+1 )%2)
         if (index == 0) {
             return this.y;
         }
