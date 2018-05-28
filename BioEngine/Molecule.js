@@ -3,7 +3,7 @@ class Molecule {//save relative x,y for later calcultions
     constructor(radius, color) {
         this.radius = radius;
         this.color = color;
-        this.isCollide = true;//left right bottom... 
+        this.isCollide = false;//left right bottom... 
        }
 
     render(ctx, x, y) {

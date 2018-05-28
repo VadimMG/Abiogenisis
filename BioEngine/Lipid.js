@@ -27,7 +27,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         }
     }
 
-    tick(entities) {//save x's and y's to reduce overhead/calcuations, pass on caclations
+    tick(entities) {//save x's and y's to reduce overhead/calcuations, pass on caclations//force apart head-tail
         super.tick(entities);
         var len = this.struc.length;
         var thisHX = this.getX(0);
@@ -48,11 +48,27 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                 var xdist2 = eHX - thisHX;
                 var ydist2 = eHY - thisHY;
                 var dist2 = Calc.distance(thisHX, thisHY, eHX, eHY);
-                if (ydist2 != 0 && xdist2 != 0 && dist2 >= this.radius && !this.struc[0].isCollide && !e.struc[0].isCollide) {
+                if (ydist2 != 0 && xdist2 != 0 && dist2 >= this.radius) {// && !this.struc[0].isCollide && !e.struc[0].isCollide
                     var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
                     var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist2 * dist2);
-                    e.forceHead(ang, mag);
+                    e.forceHead(ang, mag);//head-head attraction
                     e.actForce(ang, mag);
+                }
+
+                for (var j = 1; j < len2; j++) {
+                    var otherX = e.getX(k);
+                    var otherY = e.getY(k);
+
+                    var xdist = otherX - thisHX;
+                    var ydist = otherY - thisHY;
+                    var dist = Calc.distance(otherX, otherY, theX, theY);
+
+                    if (ydist != 0 && xdist != 0 && dist >= this.radius) {
+                        var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
+                        var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist * dist);
+                        e.actForce(-ang, mag);//head-tail repulsion
+                    }
+
                 }
 
 
@@ -71,7 +87,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                         if (ydist != 0 && xdist != 0 && dist >= this.radius && !this.struc[j].isCollide && !e.struc[k].isCollide) {
                             var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
                             var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
-                            e.actForce(ang, mag);//better act force?
+                            e.actForce(ang, mag);//tail-tail attraction
                         }
                     }
 
@@ -124,7 +140,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                 var otherY = other.getY(j);
                 var otherRad = other.struc[i].radius;
                 var dist = Calc.distance(thisX, thisY, otherX, otherY);
-                if (dist < thisRad + otherRad) {
+                if (dist < thisRad + otherRad + Calc.colPad + Calc.colPad) {
                     this.seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad);
                     this.struc[i].isCollide = true;
                     other.struc[j].isCollide = true;
@@ -153,12 +169,12 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         other.y -= difY * delta / 2;
 
         //swap vels
-        var tempSpeed = this.speed;
-        var tempAng = this.d_angle.value;
-        this.speed = other.speed;
-        this.d_angle.setValue(other.d_angle.getValue());
-        other.speed = tempSpeed;
-        other.d_angle.setValue(tempAng);
+        // var tempSpeed = this.speed;
+        // var tempAng = this.d_angle.value;
+        // this.speed = other.speed;
+        // this.d_angle.setValue(other.d_angle.getValue());
+        // other.speed = tempSpeed;
+        // other.d_angle.setValue(tempAng);
     }
 
 
@@ -189,7 +205,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         return Calc.rotatePoint(this.x + this.struc[0].radius + this.struc[1].radius * (2 * index - 1), this.y, this.x, this.y, this.o_angle.getValue())[0];
     }
 
-    getY(index) {
+    getY(index) {//+ this.radius*(index%2)
         if (index == 0) {
             return this.y;
         }
