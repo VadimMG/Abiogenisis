@@ -45,7 +45,6 @@ class Fatty extends Entity {
             label.arc(this.x * c.scale - c.x, this.y * c.scale - c.y, this.length / 2 * c.scale, 0, Math.PI * 2);
             ctx.stroke(label);
         }
-
     }
 
     tick(entities) {//pass in game

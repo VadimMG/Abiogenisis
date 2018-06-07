@@ -72,6 +72,7 @@ class Entity {
     }
 
     getX() {
+        console.log("x ",x);
         return this.x;
     }
 

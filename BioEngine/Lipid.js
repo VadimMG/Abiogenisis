@@ -1,8 +1,8 @@
 //compute forces, move with forces, render (all different methods)
 
 class Lipid extends Entity {//keep molecules consisten sized for easier calculations//save x y before calcuations.//integrate camera
-    constructor(x, y, angle, speed, id) {
-        super(x, y, angle, speed, id);
+    constructor(x, y, angle, id) {
+        super(x, y, angle, 1, id);
         this.length = 2;
         this.radius = 2;
         this.headScale = 1;
@@ -15,7 +15,6 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
     fillLength(length) {//only for tail
         var structure = [];
-        var val = this.radius * this.headScale;
         structure.push(new Molecule(this.radius * this.headScale, "white"));
         for (var i = 0; i < length; i++) {
             structure.push(new Molecule(this.radius, "goldenrod"));
@@ -26,7 +25,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
     render(ctx) {
         for (var i = 0; i < this.struc.length; i++) {
             var m = this.struc[i];
-            m.render(ctx, this.getX(i), this.getY(i));
+            m.render(ctx, this.getX(i)*c.scale - c.x, this.getY(i)*c.scale - c.y);
         }
 
         // for (var i = 0; i < this.struc.length; i++) {
@@ -80,6 +79,7 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                     }
 
                 }
+
 
 
                 for (var j = 1; j < len; j++) {//1 to ingnore head
@@ -171,12 +171,12 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         other.y -= difY * delta / 2;
 
         //swap vels
-        // var tempSpeed = this.speed;
-        // var tempAng = this.d_angle.value;
-        // this.speed = other.speed;
-        // this.d_angle.setValue(other.d_angle.getValue());
-        // other.speed = tempSpeed;
-        // other.d_angle.setValue(tempAng);
+        var tempSpeed = this.speed;
+        var tempAng = this.d_angle.value;
+        this.speed = other.speed;
+        this.d_angle.setValue(other.d_angle.getValue());
+        other.speed = tempSpeed;
+        other.d_angle.setValue(tempAng);
     }
 
 
@@ -186,14 +186,6 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
     isFocus() {
         return this.focus
-    }
-
-    getX() {
-        return this.x;
-    }
-
-    getY() {
-        return this.y;
     }
 
     getSpeed() {
@@ -212,6 +204,10 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
             return this.y;
         }
         return Calc.rotatePoint(this.x + this.struc[0].radius + this.struc[1].radius * (2 * index - 1), this.y, this.x, this.y, this.o_angle.getValue())[1];
+    }
+
+    getLength() {
+        return this.length * this.radius * 2;
     }
 
 

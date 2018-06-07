@@ -10,7 +10,7 @@ class Molecule {//save relative x,y for later calcultions
     render(ctx, x, y) {
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(Math.floor(x), Math.floor(y), Math.floor(this.radius), 0, 2*Math.PI);//Math.floor
+        ctx.arc(Math.floor(x), Math.floor(y), Math.floor(this.radius *c.scale), 0, 2*Math.PI);//Math.floor
         ctx.fill();
     }
 

@@ -99,15 +99,17 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("click", function (e) {
         var cords = getXandY(e);
         if (!Calc.remove_click) {
-            gameEngine.addEntity(new Fatty(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
+            //gameEngine.addEntity(new Fatty(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
+            gameEngine.addEntity(new Lipid(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
         } else {
             for (var i = 0; i < gameEngine.getEntities().length; i++) {
                 var e = gameEngine.getEntities()[i];
                 if (e.name != "camera") {
-                    if (Math.abs(cords.x/c.scale + c.getX() - e.getX()) < e.getLength() && Math.abs(cords.y/c.scale + c.getY() - e.getY()) < e.getLength()) {
+                    if (Math.abs(cords.x/c.scale + c.getX() - e.getX(0)) < e.getLength() 
+                    && Math.abs(cords.y/c.scale + c.getY() - e.getY(0)) < e.getLength()) {
                         gameEngine.getEntities().splice(i,1);
                         break;
-                    } 
+                    }
                 }
             }
         }

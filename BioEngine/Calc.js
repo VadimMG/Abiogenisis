@@ -20,6 +20,7 @@ const RADTODEG = 180/Math.PI;
 
 const LIPID_ID = 1;
 const CAMERA_ID = 2;
+const AMINO_ID = 3;
 
 class Calc {
 
@@ -29,6 +30,10 @@ class Calc {
 
     static get CAMERA_ID() {
         return CAMERA_ID;
+    }
+
+    static get AMINO_ID() {
+        return AMINO_ID;
     }
     
     static get MAXDEGREE() {

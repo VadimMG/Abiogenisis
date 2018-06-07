@@ -1,112 +1,103 @@
 class Amino extends Entity {
     constructor(x, y, angle, id) {
         super(x, y, angle, 1, id);
-        this.radius = 4;
+        this.radius = 2;
         this.width = 8;
         this.name = "amino"
+        this.ent_id = Calc.AMINO_ID;
+
+        this.struc = this.fillLength();
+    }
+
+    fillLength() {
+        var structure = [];
+        structure.push(new Molecule(this.radius, "purple"));
+        structure.push(new Molecule(this.radius, "white"));
+        structure.push(new Molecule(this.radius, "red"));
+        return structure;
     }
 
     render(ctx) {
-
-        var amine = new Path2D();
-        var carbox = new Path2D();
-        var sidechain = new Path2D();
-
-        ctx.fillStyle = "purple";
-
-        amine.arc(this.x * c.scale - this.width / 2 * c.scale - c.x, this.y * c.scale - c.y, this.radius * c.scale, 0, 2 * Math.PI);
-
-        ctx.fill(amine);
-
-        ctx.fillStyle = "white";
-
-        carbox.arc(this.x * c.scale + this.width / 2 * c.scale - c.x, this.y * c.scale - c.y, this.radius * c.scale, 0, 2 * Math.PI);
-
-        ctx.fill(carbox);
-
-        ctx.fillStyle = "red";
-
-        sidechain.arc(this.x * c.scale - c.x, this.y * c.scale + this.width / 2 * c.scale - c.y, this.radius * c.scale, 0, 2 * Math.PI);
-
-        ctx.fill(sidechain);
-
-        if (this.isfocus) {
-            var label = new Path2D();
-            label.arc(this.x * c.scale - c.x, this.y * c.scale - c.y, this.width / 2 * c.scale, 0, Math.PI * 2);
-            ctx.stroke(label);
+        for (var i = 0; i < this.struc.length; i++) {
+            var m = this.struc[i];
+            m.render(ctx, this.getX(i), this.getY(i));
         }
     }
 
-    tick(entities) {
-
-        for (var i = 0; i < entities.length; i++) {
-            var e = entities[i];
-            if (e != this && e.name == "amino") {
-                var xdist = e.x - this.x;
-                var ydist = e.y - this.y;
-                var dist = Calc.distance(e.x, e.y, this.x, this.y);
-                if (dist != 0) {
-                    var ang = Math.atan2(ydist, xdist) * 180 / Math.PI;
-                    var mag = 40 * 1 * 1 / (dist * dist);
-                    //this.actForce(ang, mag);
-                }
-    
-                this.isCollide(e);
-    
-            }
-        }    
-    
-        // for (var i = 0; i < entities.length; i++) {
-        //     var e = entities[i];
-        //     if (e != this && e.name == "amino" && Calc.distance(e.x, e.y, this.x, this.y) <=this.width + e.width) {
-        //         e.x += Math.cos(this.angle.value * Math.PI / 180) * this.vel;
-        //         e.y += Math.sin(this.angle.value * Math.PI / 180) * this.vel;
-        //     }
-        // }
-    
+    tick(entities) {    
         super.tick(entities);
-    }
-
-    isCollide(other) {
-        if (Calc.distance(this.getAmineX(), this.getAmineY(), other.getCarboxX(), other.getCarboxY()) <= this.radius * 2) {
-            this.angle.setValue(other.angle.value);
-        }
-
-        if (Calc.distance(this.getCarboxX(), this.getCarboxY(), other.getAmineX(), other.getAmineY()) <= this.radius * 2) {
-            this.angle.setValue(other.angle.value);
+        for (var i = 0; i < entities.length; i++) {
+            if (entities[i] != this) {
+                this.collide(entities[i]);
+            }
         }
     }
 
-    getAmineX() {
-        //this.x *c.scale - this.width/2 * c.scale - c.x, 
-        return this.x - this.width / 2;
+    collide(other) {//check for each group
+        for (var i =0; i < this.struc.length; i++) {
+            var thisX = this.getX(i);
+            var thisY = this.getY(i);
+            var thisRad = this.struc[i].radius;
+            if (other.ent_id == Calc.AMINO_ID || other.ent_id == Calc.LIPID_ID) {
+                for (var j = 0; j < other.struc.length; j++) {
+                    var otherX = other.getX(j);
+                    var otherY = other.getY(j);
+                    var otherRad = other.struc[i].radius;
+                    var dist = Calc.distance(thisX, thisY, otherX, otherY);
+                    if (dist < thisRad + otherRad + Calc.colPad + Calc.colPad) {
+                        this.seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad);
+                    }
+                }
+            }
+        }
+       
     }
 
-    getAmineY() {
-        //this.y *c.scale - c.y
-        return this.y;
+    seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad) {
+        var delta = thisRad + otherRad + Calc.colPad + Calc.colPad - dist;
+        var difX = (thisX - otherX) / dist;
+        var difY = (thisY - otherY) / dist;
+
+        this.x += difX * delta / 2;
+        this.y += difY * delta / 2;
+        other.x -= difX * delta / 2;
+        other.y -= difY * delta / 2;
+        //swap vels
+        var tempSpeed = this.speed;
+        var tempAng = this.d_angle.value;
+        this.speed = other.speed;
+        this.d_angle.setValue(other.d_angle.getValue());
+        other.speed = tempSpeed;
+        other.d_angle.setValue(tempAng);
     }
 
-    getCarboxX() {
-        //(this.x *c.scale + this.width/2 * c.scale - c.x
-        return this.x + this.width / 2;
+    getX(index) { //0 = amine, 1 = Carbox, 2=side
+        var ret = this.x;
+        if (index==0) {
+            ret = this.x * c.scale - this.width / 2 * c.scale - c.x; 
+        }
+        if (index==1) {
+            ret = this.x * c.scale + this.width / 2 * c.scale - c.x; 
+        }
+        if (index==2) {
+            ret = this.x * c.scale - c.x; 
+        }
+        return ret;
     }
 
-    getCarboxY() {
-        //, this.y *c.scale - c.y
-        return this.y;
+    getY(index) {//0 = amine, 1 = Carbox, 2=side
+        var ret = this.y;
+        if (index==0) {
+            ret = this.y * c.scale - c.y; 
+        }
+        if (index==1) {
+            ret = this.y * c.scale - c.y; 
+        }
+        if (index==2) {
+            ret = this.y * c.scale + this.width / 2 * c.scale - c.y; 
+        }
+        return ret;
     }
-
-    getSideX() {
-        //this.x *c.scale - c.x,
-        return this.x
-    }
-
-    getSideY() {
-        // this.y *c.scale + this.width/2 * c.scale - c.y
-        return this.y + this.width / 2;
-    }
-
 
 }
 
