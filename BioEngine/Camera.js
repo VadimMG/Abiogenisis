@@ -1,4 +1,4 @@
-class Camera {//maybe need getx/get y
+class Camera {
     constructor(x, y, follow) {
         this.x = x;
         this.y = y;

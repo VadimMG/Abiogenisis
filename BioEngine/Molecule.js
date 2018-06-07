@@ -4,7 +4,7 @@ class Molecule {//save relative x,y for later calcultions
         this.radius = radius;
         this.color = color;
         this.isCollide = false;//left right bottom... 
-        //this.lipid = lipid// for getting o_angle
+        //this.entity = entity// for getting o_angle
        }
 
     render(ctx, x, y) {

@@ -5,7 +5,6 @@ class Amino extends Entity {
         this.width = 8;
         this.name = "amino"
         this.ent_id = Calc.AMINO_ID;
-
         this.struc = this.fillLength();
     }
 
@@ -33,7 +32,7 @@ class Amino extends Entity {
         }
     }
 
-    collide(other) {//check for each group
+    collide(other) {
         for (var i =0; i < this.struc.length; i++) {
             var thisX = this.getX(i);
             var thisY = this.getY(i);

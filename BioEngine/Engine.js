@@ -1,6 +1,4 @@
 var eIndex = 0;
-var p = document.getElementById("p1");
-
 
 /**
  * request window frame?
@@ -77,8 +75,7 @@ GameEngine.prototype.start = function () {
 }
 
 /**
- * Starts input for the game engine. Not used for 
- * Abiogenisis.
+ * Starts input for the game engine. Mouse adds/removes entities
  */
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
@@ -92,14 +89,12 @@ GameEngine.prototype.startInput = function () {
     }
 
     this.ctx.canvas.addEventListener("mousemove", function (e) {
-        //console.log(getXandY(e));
         that.mouse = getXandY(e);
     }, false);
 
     this.ctx.canvas.addEventListener("click", function (e) {
         var cords = getXandY(e);
         if (!Calc.remove_click) {
-            //gameEngine.addEntity(new Fatty(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
             gameEngine.addEntity(new Lipid(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
         } else {
             for (var i = 0; i < gameEngine.getEntities().length; i++) {
@@ -114,23 +109,18 @@ GameEngine.prototype.startInput = function () {
             }
         }
         
-        
         that.click = getXandY(e);
     }, false);
 
     this.ctx.canvas.addEventListener("wheel", function (e) {
-        //console.log(getXandY(e));
         that.wheel = e;
-        //       console.log(e.wheelDelta);
         e.preventDefault();
     }, false);
 
     this.ctx.canvas.addEventListener("contextmenu", function (e) {
-        //console.log(getXandY(e));
         that.rightclick = getXandY(e);
         e.preventDefault();
     }, false);
-
     console.log('Input started');
 }
 
@@ -160,28 +150,21 @@ GameEngine.prototype.draw = function () {
  * Interates the entities and calls their tick method.
  * Removes any that need to be removed.
  */
-GameEngine.prototype.update = function () {
-   
+GameEngine.prototype.update = function () {   
     var entitiesCount = this.entities.length;
-
-    // if (entitiesCount < 50) {
-    //     this.addEntity(new Fatty(randomInt(canv.width), randomInt(canv.height), randomInt(360) , entitiesCount));
-    // }
-
     for (var i = 0; i < entitiesCount; i++) {
-
+        var p = document.getElementById("entity_info");
         var entity = this.entities[i];
 
         if (i == eIndex) {
             entity.setFocus(true);
-            p.innerHTML = Number(entity.getX()).toFixed(2) + ", " + Number(entity.getY()).toFixed(2) + ", " + Number(entity.getSpeed()).toFixed(2);
+            p.innerHTML = Number(entity.getX(0)).toFixed(2) + ", " + Number(entity.getY(0)).toFixed(2) + ", " + Number(entity.getSpeed()).toFixed(2);
         } else {
             entity.setFocus(false);
         }
 
         if (!entity.isRemove) {
             entity.tick(this.entities);
-            //entity.tick();
         }
     }
 
@@ -190,13 +173,11 @@ GameEngine.prototype.update = function () {
             this.entities.splice(i, 1);
         }
     }
-
-    //c.scale = rngInput.value;
     c.follow = this.entities[eIndex];
 }
 
 /**
- * IDK.
+ * Game loop.
  */
 GameEngine.prototype.loop = function () {
     var speed = 10;

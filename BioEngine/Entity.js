@@ -80,7 +80,7 @@ class Entity {
         return this.y;
     }
 
-    getAngle() {//direction angle, might need one for orientatonal angle
+    getD_Angle() {
         return this.d_angle.getValue();
     }
 
@@ -100,7 +100,11 @@ class Entity {
         return this.focus
     }
 
-    setAngle(angle) {//direction angle, might need one for orientatonal angle
+    setFocus(focus) {
+        this.focus = focus;
+    }
+
+    setD_Angle(angle) {
         this.d_angle.setAngle(angle);
     }
 

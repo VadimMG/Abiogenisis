@@ -1,3 +1,7 @@
+/**
+ * This file hold all the calculations, constants and button actions.
+ */
+
 var hydoInput = document.getElementById("hydroRange");
 var electroInput = document.getElementById("electroRange");
 var followCheck = document.getElementById("ckbx_follow");
@@ -23,7 +27,6 @@ const CAMERA_ID = 2;
 const AMINO_ID = 3;
 
 class Calc {
-
     static get LIPID_ID() {
         return LIPID_ID;
     }
@@ -68,7 +71,7 @@ class Calc {
         return Number(zoomRange.value);
     }
 
-    static get max_speed() {//not applied on single fatty, only used in actforce
+    static get max_speed() {
         return Number(speedRange.value);
     }
 
@@ -100,10 +103,6 @@ class Calc {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
-    static lineIntercept(x1, y1, x2, y2, x3, y3, x4, y4) {
-
-    }
-
     static rotatePoint(x, y, centerX, centerY, angle) {
         var newcoords = [];
         var xdist = x - centerX;
@@ -121,11 +120,7 @@ class Calc {
     static randomInt(n) {
         return Math.floor(Math.random() * n);
     }
-
-
-
 }
-
 
 class Angle {
 
@@ -151,12 +146,9 @@ function nextEntity_click() {
     eIndex = (eIndex + 1) % list.length;  
 }
 
-
 function addEntity_click() {
-    gameEngine.addEntity(new Fatty(Calc.randomInt(canv.width), Calc.randomInt(canv.height), Calc.randomInt(360) , gameEngine.getEntities.length));  
+    gameEngine.addEntity(new Lipid(Calc.randomInt(canv.width), Calc.randomInt(canv.height), Calc.randomInt(360) , gameEngine.getEntities.length));  
 }
-
-
 
 
 

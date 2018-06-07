@@ -1,12 +1,10 @@
-//pass in all entities, create array of closest entities.
-// increase all angles such that it doesnt cause a deep collison
-// check if new angle overlaps or causes fatty or move over another cell then stop
-// f = g m1*m2/r^2
-
+/**
+ * NO lONGER USED, USE LIPID INSTEAD
+ */
 class Fatty extends Entity {
     constructor(x, y, angle, id) {
         super(x, y, angle, 1, id);
-        this.length = Calc.tailLength; //this.length = Calc.randomInt(10) + 8;
+        this.length = Calc.tailLength;
         this.radius = Calc.tailRad;
         this.name = "Fatty";
         this.headScale = Calc.headScale;
@@ -156,107 +154,6 @@ class Fatty extends Entity {
             }
         }
 
-
-
-
-
-        /*
-        for (var i = 0; i < entities.length; i++) {
-            var e = entities[i];
-            if (e != this && e.name == "Fatty" && this.isCollide(e)) {
-                var dist = Calc.distance(this.x, this.y, e.x, e.y);
-                var delta = this.length / 2 + this.radius * this.headScale + e.length / 2 + e.radius * e.headScale - dist;
-                var difX = (this.x - e.x) / dist;
-                var difY = (this.y - e.y) / dist;
- 
-                this.x += difX * delta / 2;
-                this.y += difY * delta / 2;
-                e.x -= difX * delta / 2;
-                e.y -= difY * delta / 2;
-                //swap vels
-                var tempSpeed = this.speed;
-                var tempAng = this.d_angle.value;
-                this.speed = e.speed;
-                this.d_angle.setValue(e.d_angle.getValue());
-                e.speed = tempSpeed;
-                e.d_angle.setValue(tempAng);
- 
-                isc = true;
-                //act forces only from colliding lipids
-                var xdist = e.getX() - this.getX();
-                var ydist = e.getY() - this.getY();
-                var dist = Calc.distance(this.getTailX(), this.getTailY(), e.getTailX(), e.getTailY());
-                if (ydist != 0 && xdist != 0) {// && dist > this.radius
-                    var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
-                    var mag = 20 * 1 * 1 / (dist * dist);
-                    e.actForce(ang, mag);
-                } else {
-                    //console.log("need something");
-                    // var ang = Math.atan2(ydist, xdist) * 180 / Math.PI + 180;
-                    // var mag = 40 * 1 * 1 / (dist * dist);
-                    // this.actForce(ang, mag);
-                }
- 
-                var xdist2 = e.getHeadX() - this.getHeadX();
-                var ydist2 = e.getHeadY() - this.getHeadY();
-                var dist2 = Calc.distance(this.getHeadX(), this.getHeadY(), e.getHeadX(), e.getHeadY());
-                if (ydist2 != 0 && xdist2 != 0) {//and not head colliding
-                    var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
-                    var mag = 2 * 1 * 1 / (dist2 * dist2);
-                    e.forceHead(ang, mag);
-                } else {
-                    //console.log("need something");
-                }
- 
-            }
-        }
- 
- 
-        if (true) {//!isc
-            for (var i = 0; i < entities.length; i++) {
-                var e = entities[i];
-                if (e != this && e.name == "Fatty" && !isc) {
-                    var xdist = e.getX() - this.getX();
-                    var ydist = e.getY() - this.getY();
-                    var dist = Calc.distance(this.getTailX(), this.getTailY(), e.getTailX(), e.getTailY());
-                    if (ydist != 0 && xdist != 0) {// && dist > this.radius
-                        var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
-                        var mag = 20 * 1 * 1 / (dist * dist);
-                        e.actForce(ang, mag);
-                    } else {
-                        //console.log("need something");
-                        // var ang = Math.atan2(ydist, xdist) * 180 / Math.PI + 180;
-                        // var mag = 40 * 1 * 1 / (dist * dist);
-                        // this.actForce(ang, mag);
-                    }
-                    var xdist2 = e.getHeadX() - this.getHeadX();
-                    var ydist2 = e.getHeadY() - this.getHeadY();
-                    var dist2 = Calc.distance(this.getHeadX(), this.getHeadY(), e.getHeadX(), e.getHeadY());
-                    if (ydist2 != 0 && xdist2 != 0) {//and not head colliding
-                        var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
-                        var mag = 2 * 1 * 1 / (dist2 * dist2);
-                        e.forceHead(ang, mag);
-                    } else {
-                        //console.log("need something");
-                    }
- 
-                    var xdist3 = e.getTailX() - this.getHeadX();
-                    var ydist3 = e.getTailY() - this.getHeadY();
-                    var dist3 = Calc.distance(this.getHeadX(), this.getHeadY(), e.getHeadX(), e.getHeadY());
-                    if (ydist3 != 0 && xdist3 != 0) {
-                        var ang = Math.atan2(ydist3, xdist3) * 180 / Math.PI;
-                        var mag = 1 * 1 * 1 / (dist3 * dist3);
-                        e.actForce(ang, mag);//keep head and tail apart
-                    } else {
-                        //console.log("need something");
-                    }
- 
-                }
-            }
- 
-        }
-        */
-
     }
 
     /**
@@ -376,7 +273,7 @@ class Fatty extends Entity {
         return temp;
     }
 
-    getTailX() {//should be tail...
+    getTailX() {
         var temp = Calc.rotatePoint(this.x + this.length / 2, this.y, this.x, this.y, this.o_angle.value)[0];
         return temp;
     }
@@ -400,7 +297,3 @@ class Fatty extends Entity {
     }
 
 }
-
-
-
-

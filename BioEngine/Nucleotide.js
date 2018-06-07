@@ -1,4 +1,6 @@
-
+/**
+ * NOT USED. Attempts to have nucleotides for rna polymer structures.
+ */
 class Nucleotide extends Entity {
     constructor(x, y, angle, id) {
         super(x, y, angle, 1, id);

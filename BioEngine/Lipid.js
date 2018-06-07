@@ -179,19 +179,6 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
         other.d_angle.setValue(tempAng);
     }
 
-
-    setFocus(focus) {
-        this.focus = focus;
-    }
-
-    isFocus() {
-        return this.focus
-    }
-
-    getSpeed() {
-        return this.speed;
-    }
-
     getX(index) {
         if (index == 0) {
             return this.x;
@@ -212,15 +199,3 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
 
 
 }
-
-
- // var theY;
-        // var oldx = this.x;
-        // var oldRad = 0;
-        // for (var i = 0; i< this.struc.length; index++) {
-        //     var m = this.struc[i];
-        //     theX = Calc.rotatePoint(oldx + oldRad + m.radius)[1];
-        //     oldx = oldx + oldRad + m.radius;
-        //     oldRad= m.radius;
-        // }
-        // return theY;
