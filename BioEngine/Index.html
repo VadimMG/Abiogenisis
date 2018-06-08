@@ -96,20 +96,27 @@
             </div>
             <div>
                 Max Speed
-                <input type ="range" min="0", max="200" step="1" id="speedRange" value="1" oninput="speedOutput.value = speedRange.value">
+                <input type ="range" min="0", max="50" step="1" id="speedRange" value="1" list="tickmarks2" oninput="speedOutput.value = speedRange.value">
                 <output id="speedOutput">1</output>
             </div>
+            <datalist id="tickmarks2">
+                    <option value="0">
+                    <option value="1">
+                    <option value="5">
+                    <option value="15">
+                    <option value="20" label="x20">
+                  </datalist>
             <div>Fatty length varience<input type="checkbox" id="ckbx_fluc_electro"></div>
             <div>Fatty Dimensions</div>
             <div>
                 Tail Length
-                <input type ="range" min="1", max="32" step="1" id="tailRange" value="8" oninput="tailOutput.value = tailRange.value">
-                <output id="tailOutput">8</output>
+                <input type ="range" min="1", max="32" step="1" id="tailRange" value="3" oninput="tailOutput.value = tailRange.value">
+                <output id="tailOutput">3</output>
             </div>
             <div>
                 Tail Radius
-                <input type ="range" min="1", max="20" step="1" id="tailRadRange" value="2" oninput="tailRadOutput.value = tailRadRange.value">
-                <output id="tailRadOutput">2</output>
+                <input type ="range" min="1", max="20" step="1" id="tailRadRange" value="1" oninput="tailRadOutput.value = tailRadRange.value">
+                <output id="tailRadOutput">1</output>
             </div>
             <div>
                 Head Size

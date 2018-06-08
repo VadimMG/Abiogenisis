@@ -55,8 +55,10 @@ class Fatty extends Entity {
         var thisAngL = new Angle(this.o_angle.getValue() + 120);
         var thisAngR = new Angle(this.o_angle.getValue() - 120);
 
+        var entLen = entities.length;
 
-        for (var i = 0; i < entities.length; i++) {
+
+        for (var i = 0; i < entLen; i++) {
             var e = entities[i];
             if (e != this && e.name == "Fatty") {
                 if (this.threeWayCollide(e)) {

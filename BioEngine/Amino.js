@@ -2,7 +2,7 @@ class Amino extends Entity {
     constructor(x, y, angle, id) {
         super(x, y, angle, 1, id);
         this.radius = 2;
-        this.width = 8;
+        this.width = 6;
         this.name = "amino"
         this.ent_id = Calc.AMINO_ID;
         this.struc = this.fillLength();
@@ -17,7 +17,8 @@ class Amino extends Entity {
     }
 
     render(ctx) {
-        for (var i = 0; i < this.struc.length; i++) {
+        
+        for (var i = 0, n = this.struc.length; i < n; i++) {
             var m = this.struc[i];
             m.render(ctx, this.getX(i), this.getY(i));
         }
@@ -25,7 +26,7 @@ class Amino extends Entity {
 
     tick(entities) {    
         super.tick(entities);
-        for (var i = 0; i < entities.length; i++) {
+        for (var i = 0 , n = entities.length; i < n; i++) {
             if (entities[i] != this) {
                 this.collide(entities[i]);
             }
@@ -33,12 +34,12 @@ class Amino extends Entity {
     }
 
     collide(other) {
-        for (var i =0; i < this.struc.length; i++) {
+        for (var i =0, n = this.struc.length; i < n; i++) {
             var thisX = this.getX(i);
             var thisY = this.getY(i);
             var thisRad = this.struc[i].radius;
             if (other.ent_id == Calc.AMINO_ID || other.ent_id == Calc.LIPID_ID) {
-                for (var j = 0; j < other.struc.length; j++) {
+                for (var j = 0, nj = other.struc.length; j < nj; j++) {
                     var otherX = other.getX(j);
                     var otherY = other.getY(j);
                     var otherRad = other.struc[i].radius;

@@ -97,7 +97,7 @@ GameEngine.prototype.startInput = function () {
         if (!Calc.remove_click) {
             gameEngine.addEntity(new Lipid(cords.x/c.scale + c.getX(), cords.y/c.scale + c.getY(), Calc.randomInt(360) , gameEngine.getEntities().length));
         } else {
-            for (var i = 0; i < gameEngine.getEntities().length; i++) {
+            for (var i = 0, n = gameEngine.getEntities().length; i < n; i++) {
                 var e = gameEngine.getEntities()[i];
                 if (e.name != "camera") {
                     if (Math.abs(cords.x/c.scale + c.getX() - e.getX(0)) < e.getLength() 
@@ -140,7 +140,7 @@ GameEngine.prototype.addEntity = function (entity) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-    for (var i = 0; i < this.entities.length; i++) {
+    for (var i = 0, n = this.entities.length; i < n; i++) {
         this.entities[i].render(this.ctx);
     }
     this.ctx.restore();
