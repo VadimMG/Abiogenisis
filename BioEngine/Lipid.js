@@ -1,16 +1,14 @@
 //compute forces, move with forces, render (all different methods)
 
-class Lipid extends Entity {//keep molecules consisten sized for easier calculations//save x y before calcuations.//integrate camera
+class Lipid extends Entity {
     constructor(x, y, angle, id) {
         super(x, y, angle, 1, id);
-        this.length = 2;
-        this.radius = 2;
-        this.headScale = 1;
+        this.length = 3;
+        this.radius = 1;
+        this.headScale = 2;
         this.struc = this.fillLength(this.length);
         this.name = "Lipid";
         this.ent_id = Calc.LIPID_ID;
-        // this.twotailed = true;
-        // this.struc2 = this.fillLength(this.length);
     }
 
     fillLength(length) {//only for tail
@@ -27,15 +25,9 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
             var m = this.struc[i];
             m.render(ctx, this.getX(i)*c.scale - c.x, this.getY(i)*c.scale - c.y);
         }
-
-        // for (var i = 0; i < this.struc.length; i++) {
-        //     var m = this.struc[i];
-        //     m.render(ctx, this.getX(i), this.getY(i));
-        // }
-
     }
 
-    tick(entities) {//save x's and y's to reduce overhead/calcuations, pass on caclations//force apart head-tail
+    tick(entities) {//force apart head-tail
         super.tick(entities);
         var len = this.struc.length;
         var thisHX = this.getX(0);
@@ -60,27 +52,25 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                     var ang = Math.atan2(-ydist2, -xdist2) * 180 / Math.PI;
                     var mag = Calc.ELECTRO_CONST * 1 * 1 / (dist2 * dist2);
                     e.forceHead(ang, mag);//head-head attraction
-                    //e.actForce(ang, mag);
+                    e.actForce(ang, mag);
                 }
 
-                for (var j = 1; j < len2; j++) {
-                    var otherX = e.getX(j);
-                    var otherY = e.getY(j);
+                // for (var j = 1; j < len2; j++) {
+                //     var otherX = e.getX(j);
+                //     var otherY = e.getY(j);
 
-                    var xdist = otherX - thisHX;
-                    var ydist = otherY - thisHY;
-                    var dist = Calc.distance(otherX, otherY, theX, theY);
+                //     var xdist = otherX - thisHX;
+                //     var ydist = otherY - thisHY;
+                //     var dist = Calc.distance(otherX, otherY, theX, theY);
 
-                    if (ydist != 0 && xdist != 0 && dist >= this.radius) {// && !e.struc[j].isCollide
-                        var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
-                        var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
-                        //e.forceHead(ang, -mag);//head-tail repulsion
-                        e.actForce(ang, -mag);
-                    }
+                //     if (ydist != 0 && xdist != 0 && dist >= this.radius) {// && !e.struc[j].isCollide
+                //         var ang = Math.atan2(-ydist, -xdist) * 180 / Math.PI;
+                //         var mag = Calc.HYDRO_CONST * 1 * 1 / (dist * dist);
+                //         e.forceHead(ang, -mag);//head-tail repulsion
+                //         e.actForce(ang, -mag);
+                //     }
 
-                }
-
-
+                // }
 
                 for (var j = 1; j < len; j++) {//1 to ingnore head
                     for (var k = 1; k < len2; k++) {
@@ -145,6 +135,10 @@ class Lipid extends Entity {//keep molecules consisten sized for easier calculat
                 if (dist < thisRad + otherRad + Calc.colPad + Calc.colPad) {
                     this.seperate(other, dist, thisX, thisY, otherX, otherY, thisRad, otherRad);
                     this.struc[i].isCollide = true;
+                    // if (i ==0 && j ==other.struc.length - 1) {
+                    //      console.log("tail head");
+                    //      this.o_angle.addValue(180);
+                    // }
                     //other.struc[j].isCollide = true;
                     flag = true;
                 } else if (!flag){
